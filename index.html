@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Happy Birthday</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Giao diện màn hình chào (Intro) */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Nền đen */
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Dòng chữ chạy ngang */
+        .scrolling-text {
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            white-space: nowrap;
+            position: absolute;
+            animation: moveLeft 7s linear forwards;
+        }
+
+        @keyframes moveLeft {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* Nút bấm xuất hiện sau khi chữ chạy xong */
+        #start-btn {
+            display: none;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            font-family: sans-serif;
+            color: #ffffff;            /* Chữ trắng */
+            background-color: #000000; /* Nền đen */
+            border: 2px solid #ffffff; /* Viền trắng */
+            border-radius: 5px;        /* Bo góc nhẹ kiểu hiện đại */
+            cursor: pointer;
+            transition: all 0.4s ease;
+            z-index: 100000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        /* Ẩn nội dung chính ban đầu */
+        .main, .loader {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="intro-overlay">
+        <div class="scrolling-text" id="intro-text">
+            Hôm nay là ngày sinh nhật bạn. Mình có một món quả nhỏ gửi đến bạn. Mong bạn thích nó nha! 🎉🎂🎈
+        </div>
+        <button id="start-btn">Nhấn vào đây</button>
+    </div>
+
+    <div class="container loader-container">
+        <div class="row">
+            <div class="loader">
+                <button id="play">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <audio class="song" loop>
+        <source src="a-cheerful-ukulele-waltz.mp3" type="audio/mpeg">
+        Your browser isn't invited for super fun audio time.
+    </audio>
+
+    <canvas id="confetti"></canvas>
+
+    <div class="main">
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col-12 col-xl-6 mx-auto">
+                    <img src="img/banner.png" alt="" class="img-fluid">
+                </div>
+
+                <div class="col-12 text-center">
+                    <div id="name" class="area">Thuỳ Phi</div>
+                </div>
+
+                <div class="col-12 text-center">
+                    <div class="type-wrap">
+                        <div id="typed-strings" class="typing">
+                            <h2>Chúc mừng sinh nhật <i id="nae">Thuỳ Phi</i></h2>
+                            <h2>Mong hôm nay sẽ là một ngày tuyệt vời với Phi.</h2>
+                            <h2>Và sẽ và một ngày tràn ngập hành phúc cùng người Phi yêu thương nha 🎉🎂🎈.</h2>
+                        </div>
+                        <span id="typed" style="white-space:pre;"></span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-3 cake mx-auto">
+                    <img src="img/cake.gif" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <img src="img/Balloon-Border.png" width="100%" class="balloon-border">
+    </div>
+
+    <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/typed.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            const $overlay = $('#intro-overlay');
+            const $btn = $('#start-btn');
+            const $text = $('#intro-text');
+            const audio = document.querySelector('.song');
+
+            // 1. Sau 7 giây (thời gian chữ chạy xong), hiện nút bấm
+            setTimeout(function() {
+                $text.fadeOut(500, function() {
+                    $btn.fadeIn(800);
+                });
+            }, 7000);
+
+            // 2. Khi click vào nút bấm
+            $btn.on('click', function() {
+                $overlay.fadeOut(1000); // Biến mất màn hình đen
+                $('.main').fadeIn(1000); // Hiện nội dung chính
+                
+                // Tự động phát nhạc
+                audio.play();
+
+                // Kích hoạt nút Start cũ của bạn (nếu script.js của bạn cần nút đó để chạy tiếp)
+                $('#play').trigger('click');
+            });
+        });
+    </script>
+</body>
+
+</html>
